@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 const BASE_URL = `http://localhost:8000`;
 
@@ -30,4 +30,8 @@ function CitiesProvider({ children }) {
   );
 }
 
-export default CitiesProvider;
+function useCities() {
+  return useContext(CitiesContext);
+}
+
+export { CitiesProvider, useCities };

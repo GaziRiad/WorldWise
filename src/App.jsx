@@ -10,7 +10,7 @@ import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
 import City from "./components/City";
 import Form from "./components/Form";
-import CitiesProvider from "./contexts/CitiesProvider";
+import { CitiesProvider } from "./contexts/CitiesProvider";
 
 function App() {
   return (
