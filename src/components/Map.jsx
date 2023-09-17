@@ -7,10 +7,12 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
+import { useEffect, useState } from "react";
 
 import styles from "./Map.module.css";
-import { useEffect, useState } from "react";
 import { useCities } from "../contexts/CitiesProvider";
+import { useGeolocation } from "../hooks/useGeolocation";
+import Button from "./Button";
 
 const flagemojiToPNG = (flag) => {
   var countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt())
@@ -22,12 +24,15 @@ const flagemojiToPNG = (flag) => {
 };
 
 function Map() {
-  const navigate = useNavigate();
-
   const { cities } = useCities();
-
-  const [mapPosition, setMapPosition] = useState([20, 10]);
+  const [mapPosition, setMapPosition] = useState([41.3874, 2.1686]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const {
+    isLoading: isLoadingPosition,
+    position: geoLocationPosition,
+    getPosition,
+  } = useGeolocation();
+
   const mapLat = searchParams.get("lat");
   const mapLng = searchParams.get("lng");
 
@@ -36,13 +41,18 @@ function Map() {
     setMapPosition([mapLat, mapLng]);
   }, [mapLat, mapLng]);
 
+  useEffect(() => {
+    if (!geoLocationPosition) return;
+    setMapPosition(geoLocationPosition);
+  }, [geoLocationPosition]);
+
   return (
-    <div
-      className={styles.mapContainer}
-      // onClick={() => {
-      //   navigate(`form`);
-      // }}
-    >
+    <div className={styles.mapContainer}>
+      {!geoLocationPosition && (
+        <Button type="position" onClick={getPosition}>
+          {isLoadingPosition ? "Loading..." : "Use your position"}
+        </Button>
+      )}
       <MapContainer
         center={mapPosition}
         zoom={9}
