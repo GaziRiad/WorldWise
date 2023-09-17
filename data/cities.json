@@ -47,6 +47,90 @@
         "lng": 2.1686
       },
       "id": 101010
+    },
+    {
+      "cityName": "Algiers",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2023-09-17T07:26:56.394Z",
+      "notes": "",
+      "position": {
+        "lat": "36.767492156196745",
+        "lng": "3.0541992187500004"
+      },
+      "id": 98443198
+    },
+    {
+      "cityName": "Paris",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "date": "2023-09-17T07:33:16.631Z",
+      "notes": "",
+      "position": {
+        "lat": "48.85206549830759",
+        "lng": "2.3483276367187504"
+      },
+      "id": 98443199
+    },
+    {
+      "cityName": "Sainte-Marthe",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "date": "2023-09-17T07:36:12.949Z",
+      "notes": "",
+      "position": {
+        "lat": "48.96579381461063",
+        "lng": "0.8871459960937501"
+      },
+      "id": 98443200
+    },
+    {
+      "cityName": "Greater London",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-17T07:37:58.854Z",
+      "notes": "",
+      "position": {
+        "lat": "51.498484547170605",
+        "lng": "-0.11535644531250001"
+      },
+      "id": 98443201
+    },
+    {
+      "cityName": "Dewlish",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-17T07:38:33.279Z",
+      "notes": "",
+      "position": {
+        "lat": "50.792047064406866",
+        "lng": "-2.3236083984375004"
+      },
+      "id": 98443202
+    },
+    {
+      "cityName": "Exeter",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-17T07:39:22.915Z",
+      "notes": "",
+      "position": {
+        "lat": "50.71559113343383",
+        "lng": "-3.5101318359375004"
+      },
+      "id": 98443203
+    },
+    {
+      "cityName": "Exeter",
+      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+      "emoji": "🇬🇧",
+      "date": "2023-09-17T07:39:22.915Z",
+      "notes": "",
+      "position": {
+        "lat": "50.71559113343383",
+        "lng": "-3.5101318359375004"
+      },
+      "id": 98443204
     }
   ]
 }

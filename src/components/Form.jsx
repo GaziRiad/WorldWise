@@ -10,6 +10,8 @@ import BackButton from "./BackButton";
 import { useUrlPosition } from "../hooks/useURLPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
+import { useCities } from "../contexts/CitiesProvider";
+import { useNavigate } from "react-router-dom";
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -30,6 +32,8 @@ const flagemojiToPNG = (flag) => {
 
 function Form() {
   const [positionLat, positionLng] = useUrlPosition();
+  const { createCity, isLoading } = useCities();
+  const navigate = useNavigate();
 
   const [isLoadingGeocoding, setIsLoadingGeocoding] = useState(false);
   const [cityName, setCityName] = useState("");
@@ -57,7 +61,7 @@ function Form() {
 
         setCityName(data.city || data.locality || "");
         setCountry(data.countryName);
-        setEmoji(flagemojiToPNG(convertToEmoji(data.countryCode)));
+        setEmoji(convertToEmoji(data.countryCode));
       } catch (err) {
         setGeoCoddingError(err.message);
       } finally {
@@ -67,24 +71,24 @@ function Form() {
     fetchCityData();
   }, [positionLat, positionLng]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const newCity = {
-      cityName: "Barcelona",
-      country: "Spain",
-      emoji: "🇪🇸",
-      date: "2027-07-15T08:22:53.976Z",
-      notes: "",
-      position: {
-        lat: 41.3874,
-        lng: 2.1686,
-      },
-      id: 101010,
-    };
-  }
 
-  function handleDateSelect(e) {
-    console.log(e);
+    if (!cityName || !date) return;
+
+    const newCity = {
+      cityName,
+      country,
+      emoji,
+      date,
+      notes,
+      position: {
+        lat: positionLat,
+        lng: positionLng,
+      },
+    };
+    await createCity(newCity);
+    navigate("/app/cities");
   }
 
   if (isLoadingGeocoding) return <Spinner />;
@@ -94,10 +98,11 @@ function Form() {
 
   if (geoCodingError) return <Message message={geoCodingError} />;
 
-  console.log(date);
-
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form
+      className={`${styles.form} ${isLoading ? styles.loading : ""}`}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input
@@ -105,7 +110,7 @@ function Form() {
           onChange={(e) => setCityName(e.target.value)}
           value={cityName}
         />
-        <span className={styles.flag}>{emoji}</span>
+        <span className={styles.flag}>{flagemojiToPNG(emoji)}</span>
       </div>
 
       <div className={styles.row}>
@@ -114,7 +119,6 @@ function Form() {
           id="date"
           selected={date}
           onChange={(date) => setDate(date)}
-          onSelect={handleDateSelect}
           maxDate={new Date()}
           dateFormat="dd/MM/yyyy"
         />
