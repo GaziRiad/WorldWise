@@ -9,6 +9,7 @@ function BackButton() {
       type="back"
       onClick={(e) => {
         e.preventDefault();
+        // navigate("/app/cities");
         navigate(-1);
       }}
     >

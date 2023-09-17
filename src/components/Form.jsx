@@ -1,6 +1,8 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import styles from "./Form.module.css";
 import Button from "./Button";
@@ -38,6 +40,7 @@ function Form() {
   const [geoCodingError, setGeoCoddingError] = useState("");
 
   useEffect(() => {
+    if (!positionLat && !positionLng) return;
     async function fetchCityData() {
       try {
         setIsLoadingGeocoding(true);
@@ -46,7 +49,6 @@ function Form() {
           `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${positionLat}&longitude=${positionLng}`
         );
         const data = await res.json();
-        console.log(data);
 
         if (!data.countryCode)
           throw new Error(
@@ -65,12 +67,37 @@ function Form() {
     fetchCityData();
   }, [positionLat, positionLng]);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const newCity = {
+      cityName: "Barcelona",
+      country: "Spain",
+      emoji: "🇪🇸",
+      date: "2027-07-15T08:22:53.976Z",
+      notes: "",
+      position: {
+        lat: 41.3874,
+        lng: 2.1686,
+      },
+      id: 101010,
+    };
+  }
+
+  function handleDateSelect(e) {
+    console.log(e);
+  }
+
   if (isLoadingGeocoding) return <Spinner />;
+
+  if (!positionLat && !positionLng)
+    return <Message message="Start by click somewhere on the map." />;
 
   if (geoCodingError) return <Message message={geoCodingError} />;
 
+  console.log(date);
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input
@@ -83,10 +110,13 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input
+        <DatePicker
           id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
+          selected={date}
+          onChange={(date) => setDate(date)}
+          onSelect={handleDateSelect}
+          maxDate={new Date()}
+          dateFormat="dd/MM/yyyy"
         />
       </div>
 
